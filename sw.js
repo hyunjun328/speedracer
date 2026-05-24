@@ -1,4 +1,4 @@
-const CACHE = 'speedracer-v4';
+const CACHE = 'speedracer-v5';
 const ASSETS = [
   '/speedracer/',
   '/speedracer/index.html',
