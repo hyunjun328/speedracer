@@ -1800,13 +1800,9 @@ function createVehicle(config, colorOverride){
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
     modelInstance.traverse(child=>{
-      if(child.isMesh){
-        child.material=new THREE.MeshStandardMaterial({
-          color:paintColor,
-          roughness:0.55,
-          metalness:0.15,
-        });
-      }
+      if(!child.isMesh) return;
+      const newMat=new THREE.MeshLambertMaterial({color:paintColor});
+      child.material=Array.isArray(child.material)?child.material.map(()=>newMat):newMat;
     });
     g.add(modelInstance);
   } else {
