@@ -343,15 +343,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .stat-row-sub{gap:10px}
 
   /* 미니맵 — 왼쪽 세로 중앙 */
-  .minimap{width:52px;height:52px;left:12px;bottom:auto;top:50%;transform:translateY(-50%)}
+  .minimap{width:52px;height:52px;left:22px;bottom:auto;top:50%;transform:translateY(-50%)}
 
   /* 스피드미터 — 오른쪽 세로 중앙 */
   .speedometer{width:50px;height:50px;right:6px;bottom:auto;top:50%;transform:translateY(-50%)}
   .speedometer:before{width:38px;height:38px}
   .speed-num{font-size:14px}
   .speed-unit{font-size:6px}
-  .speed-num{font-size:28px}
-  .speed-unit{font-size:9px}
 
   /* 드리프트 미터 최하단 유지 */
   .drift-label{bottom:18px;font-size:10px}
@@ -365,6 +363,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .countdown{font-size:95px}
 
   /* 메뉴 */
+  #overlay{padding:18px 0;}
+  .title-group{margin-bottom:10px;}
+  .stepper{margin-bottom:14px;}
+  .nav-buttons{margin-top:14px;margin-bottom:18px;}
   .title-group h2{font-size:min(85px,20vw)}
   .menu-title{font-size:min(60px,15vw)}
   .menu-btn{width:min(280px,80vw);padding:14px 20px;font-size:min(20px,4.5vw)}
@@ -823,7 +825,8 @@ renderer.shadowMap.type=THREE.PCFShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1500);
+const MOBILE_CAM=navigator.maxTouchPoints>0;
+const camera=new THREE.PerspectiveCamera(MOBILE_CAM?52:65,innerWidth/innerHeight,.1,1500);
 
 
 const modelConfigs = {
@@ -1915,7 +1918,7 @@ function createVehicle(config, colorOverride){
 }
 
 let racers=[],player,finishLineOrder=[],running=false,raceStarted=false,elapsed=0,lastTime=performance.now();
-let currentCameraFov = 65;
+let currentCameraFov = MOBILE_CAM?52:65;
 let lastMiniDraw = 0; 
 
 function addRacer({isPlayer=false,config,colorOverride,offset,progress,botSpeed,skill=.8,lineAmp=3,react=5}){
@@ -1938,7 +1941,7 @@ function resetCamera(){
   const fwd=new THREE.Vector3(Math.sin(player.heading),0,Math.cos(player.heading));
   camera.position.copy(player.pos.clone().addScaledVector(fwd,-18).add(new THREE.Vector3(0,9.6,0)));
   camera.lookAt(player.pos.clone().add(new THREE.Vector3(0,3,0)).addScaledVector(fwd,16));
-  currentCameraFov = 65;
+  currentCameraFov = MOBILE_CAM?52:65;
   camera.fov = currentCameraFov;
   camera.updateProjectionMatrix();
 }
@@ -2878,7 +2881,7 @@ function animate(now){
   camera.position.lerp(player.pos.clone().addScaledVector(fwd,-18-sp*7).add(new THREE.Vector3(0,9.6+sp*2.2 + (player.yOffset||0)*0.5,0)),.1);
   camera.lookAt(player.pos.clone().add(new THREE.Vector3(0,3 + (player.yOffset||0),0)).addScaledVector(fwd,15));
   
-  const targetFov = 65 + sp * 10 + (player.boostTimer > 0 ? 20 : 0);
+  const targetFov = (MOBILE_CAM?52:65) + sp * 10 + (player.boostTimer > 0 ? 20 : 0);
   if(!isPaused) {
       currentCameraFov += (targetFov - currentCameraFov) * 8 * dt; 
       camera.fov = currentCameraFov;
