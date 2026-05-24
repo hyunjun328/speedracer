@@ -30,9 +30,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 .speed-inner{position:relative;z-index:2;text-align:center}
 .speed-num{font-size:40px;font-weight:900;font-family:'Syncopate',sans-serif;color:#fff}
 .speed-unit{color:#ff003c;font-size:11px;font-weight:900;letter-spacing:1px;margin-top:-2px}
-.item-slot{position:absolute;left:50%;transform:translateX(-50%);bottom:72px;width:90px;height:90px;border:3px solid #ff003c;border-radius:14px;background:rgba(10,0,0,0.92);display:none;align-items:center;justify-content:center;font-size:44px;box-shadow:0 0 28px rgba(255,0,60,0.6);text-shadow:0 0 12px rgba(255,255,255,0.9)}
-.drift-label{position:absolute;left:50%;bottom:50px;transform:translateX(-50%);color:#ddd;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;text-shadow:0 2px 14px #000;white-space:nowrap}
-.drift-meter{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);width:min(430px,calc(100vw - 40px));height:13px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,0,60,.4);overflow:hidden}
+.item-slot{position:absolute;right:3vw;top:50%;transform:translateY(-50%);width:min(16vw,90px);height:min(16vw,90px);border:3px solid #ff003c;border-radius:14px;background:rgba(10,0,0,0.92);display:none;align-items:center;justify-content:center;font-size:min(8vw,44px);box-shadow:0 0 28px rgba(255,0,60,0.6);text-shadow:0 0 12px rgba(255,255,255,0.9);cursor:pointer;pointer-events:all;}
+.drift-label{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);color:#ddd;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;text-shadow:0 2px 14px #000;white-space:nowrap}
+.drift-meter{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:min(430px,calc(100vw - 40px));height:13px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,0,60,.4);overflow:hidden}
 .drift-fill{height:100%;width:0%;background:linear-gradient(90deg,#880022,#ff003c,#fff);transition:width 80ms linear}
 .drift-meter.ready{box-shadow:0 0 26px rgba(255,0,60,.6)}
 .minimap{position:absolute;left:30px;bottom:30px;width:185px;height:185px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,0,60,.3);box-shadow:0 10px 30px rgba(0,0,0,.8)}
@@ -318,12 +318,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .speed-num{font-size:28px}
   .speed-unit{font-size:9px}
 
-  /* 드리프트 미터 위로 */
-  .drift-label{bottom:222px;font-size:10px}
-  .drift-meter{bottom:205px}
+  /* 드리프트 미터 최하단 유지 */
+  .drift-label{bottom:18px;font-size:10px}
+  .drift-meter{bottom:4px}
 
-  /* 아이템 슬롯 — 중앙, 터치버튼 위 */
-  .item-slot{left:50%;right:auto;transform:translateX(-50%);bottom:260px;width:70px;height:70px;font-size:32px}
+  /* 아이템 슬롯 오른쪽 중앙 */
+  .item-slot{right:3vw;left:auto;top:50%;bottom:auto;transform:translateY(-50%);width:min(16vw,80px);height:min(16vw,80px);font-size:min(8vw,36px)}
 
   /* 연출 글자 */
   .lap-banner{font-size:58px}
@@ -338,13 +338,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 }
 .touch-btn{position:absolute;pointer-events:all;background:rgba(255,0,60,.18);border:2px solid rgba(255,0,60,.5);border-radius:16px;color:#fff;font-family:'Syncopate',sans-serif;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:none;-webkit-tap-highlight-color:transparent;transition:background .08s,border-color .08s,box-shadow .08s;}
 .touch-btn.pressed{background:rgba(255,0,60,.52);border-color:#ff003c;box-shadow:0 0 22px rgba(255,0,60,.55);}
-#tbLeft {left:18px; bottom:70px;width:86px;height:86px;font-size:30px;border-radius:50%;}
-#tbRight{left:118px;bottom:70px;width:86px;height:86px;font-size:30px;border-radius:50%;}
-#tbDrift{right:18px; bottom:28px; width:120px;height:90px;font-size:14px;color:#ff88a5;border-color:rgba(255,136,165,.6);box-shadow:0 0 18px rgba(255,136,165,.2);}
+#tbLeft {left:3vw; bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
+#tbRight{left:calc(3vw + min(20vw,110px) + 2vw); bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
+#tbDrift{right:3vw; bottom:3vh; width:min(26vw,140px); height:min(13vh,100px); font-size:min(3.5vw,16px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
 #tbDrift.pressed{background:rgba(255,136,165,.45);border-color:#ff88a5;box-shadow:0 0 36px rgba(255,136,165,.6);}
-#tbBrake{right:152px;bottom:60px;width:110px;height:94px;font-size:15px;font-weight:900;letter-spacing:1px;background:rgba(160,0,0,.55);border-color:rgba(255,60,60,.85);border-width:3px;color:#fff;box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15);border-radius:14px;}
+#tbBrake{right:calc(3vw + min(26vw,140px) + 2vw); bottom:6vh; width:min(24vw,130px); height:min(12vh,100px); font-size:min(3vw,15px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
 #tbBrake.pressed{background:rgba(220,0,0,.8);border-color:#ff2020;box-shadow:0 0 34px rgba(255,0,0,.75);}
-#tbItem {right:18px; bottom:162px;width:158px;height:58px;font-size:13px;background:rgba(255,200,0,.14);border-color:rgba(255,200,0,.4);}
+#tbItem {right:3vw; bottom:calc(3vh + min(13vh,100px) + 1vh); width:min(26vw,160px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
 #tbItem.pressed{background:rgba(255,200,0,.38);border-color:rgba(255,200,0,.8);}
 
 </style>
@@ -585,7 +585,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   <button class="touch-btn" id="tbRight">▶</button>
   <button class="touch-btn" id="tbBrake">BRAKE</button>
   <button class="touch-btn" id="tbDrift">DRIFT</button>
-  <button class="touch-btn" id="tbItem" style="display:none;">ITEM</button>
+  <button class="touch-btn" id="tbItem" style="display:none;visibility:hidden;">ITEM</button>
 </div>
 
 <script type="module">
@@ -2191,7 +2191,7 @@ function updateCheckpoints(r){
 function triggerAutoBoost(){player.drift=0;driftWarnTimer=0;driftMeter.classList.remove('warn');player.boostTimer=1.0;showToast('AUTO BOOST!');playBoostSound()}
 
 function updatePlayer(dt){
-  if(touchControlsActive && window.innerWidth < 1024) keys.add('arrowup');
+  if(touchControlsActive && mobileAutoForward) keys.add('arrowup');
   let up=keys.has('arrowup'),down=keys.has('arrowdown'),left=keys.has('arrowleft'),right=keys.has('arrowright'),shift=keys.has('shift');
   
   if(player.stunTimer > 0) {
@@ -2727,6 +2727,8 @@ addEventListener('resize',()=>{
 
 // ── 모바일 터치 컨트롤 ──
 let touchControlsActive=false;
+// iPhone/Android/iPad(구형) + 신형 iPad(Macintosh + maxTouchPoints>1) 감지
+const mobileAutoForward=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(/Macintosh/i.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
 
 function setupTouchControls(){
   const tc=document.getElementById('touchControls');
@@ -2767,6 +2769,19 @@ function setupTouchControls(){
   document.querySelectorAll('#modeGroup .mode-card').forEach(c=>{
     c.addEventListener('click',()=>setTimeout(syncItemBtn,10));
   });
+
+  // 아이템슬롯 탭으로 아이템 사용
+  const itemSlotEl=document.getElementById('itemSlot');
+  if(itemSlotEl){
+    itemSlotEl.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      keys.add('z');
+    },{passive:false});
+    itemSlotEl.addEventListener('touchend',e=>{
+      e.preventDefault();
+      keys.delete('z');
+    },{passive:false});
+  }
 }
 
 // ── 온라인 멀티플레이어 ──
