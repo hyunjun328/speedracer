@@ -1796,7 +1796,7 @@ function createVehicle(config, colorOverride){
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
     modelInstance.traverse(child=>{
-      if(child.isMesh && child.material && !child.material.transparent){
+      if(child.isMesh && child.material){
         child.material=child.material.clone();
         child.material.color.set(paintColor);
       }
@@ -2156,7 +2156,7 @@ function spawnOil(r){
     new THREE.MeshStandardMaterial({color:0x0a0a0a,transparent:true,opacity:0.72,roughness:0.05,metalness:0.4})
   );
   mesh.position.copy(pos); scene.add(mesh);
-  oils.push({mesh,pos,active:true,timer:14.0});
+  oils.push({mesh,pos,active:true,timer:14.0,owner:r});
 }
 
 function useLightning(r){
@@ -2458,8 +2458,9 @@ async function submitScore(name,time){
     await addDoc(collection(_db,'scores'),{name:name.toUpperCase().trim().slice(0,12),time:Number(time),track:selT,difficulty:selD,ts:Date.now()});
     _lbMyName=name.toUpperCase().trim().slice(0,12);
     _lbSubmitted=true;
-    const row=$('lbInputRow');
-    if(row) row.innerHTML='<div style="color:#4ade80;font-family:Syncopate,sans-serif;font-size:11px;font-weight:900;letter-spacing:2px;padding:6px 0;">✓ SUBMITTED!</div>';
+    const ni=$('nicknameInput'),sb=$('submitScoreBtn');
+    if(ni) ni.disabled=true;
+    if(sb){sb.disabled=true;sb.textContent='✓ SUBMITTED';sb.style.background='rgba(74,222,128,.35)';}
     fetchLeaderboard();
   }catch(e){
     console.error('점수 등록 실패:', e);
@@ -2698,7 +2699,9 @@ function resolveCarCollision(a,b){
     b.vel.addScaledVector(friction, invB);
   }
   slideWall(a); slideWall(b);
-  a.group.position.copy(a.pos); b.group.position.copy(b.pos);
+  const ayPrev=a.group.position.y, byPrev=b.group.position.y;
+  a.group.position.copy(a.pos); a.group.position.y=ayPrev;
+  b.group.position.copy(b.pos); b.group.position.y=byPrev;
 }
 
 function resolveAllCarCollisions(){
@@ -2762,7 +2765,7 @@ function animate(now){
         o.mesh.rotation.y+=dt*0.4;
         if(o.timer<=0){o.active=false;o.mesh.visible=false;return;}
         racers.forEach(r=>{
-            if(r.shieldTimer>0||r.slickTimer>0) return;
+            if(r===o.owner||r.shieldTimer>0||r.slickTimer>0) return;
             if(r.pos.distanceTo(o.pos)<3.8){
                 r.slickTimer=2.2;
                 if(r.player){showToast('💧 OIL SLICK!');triggerScreenShake('light');showHitFlash();}
