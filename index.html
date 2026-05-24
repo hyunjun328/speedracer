@@ -371,6 +371,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @media (pointer:coarse){
   .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(13vh,100px) + 2vw)!important;right:3vw!important;width:min(26vw,140px)!important;height:min(13vh,100px)!important;font-size:min(9vw,48px)!important;}
 }
+.color-picker{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;margin-top:4px;}
+.color-swatch{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.18s;position:relative;outline:none;}
+.color-swatch:hover{transform:scale(1.18);}
+.color-swatch.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.5),0 0 16px rgba(255,255,255,.4);}
+.color-swatch.taken{opacity:.25;cursor:not-allowed;pointer-events:none;}
+.color-swatch.taken::after{content:'✕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900;}
 
 </style>
 </head>
@@ -485,7 +491,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
     <div class="vehicle-card" data-v="3"><h3>MONSTER TRUCK</h3><div class="type">TOUGH</div><div class="stat-bars"><div class="sbar"><span class="sbar-label">SPD</span><div class="sbar-track"><div class="sbar-fill" style="width:52%"></div></div></div><div class="sbar"><span class="sbar-label">ACC</span><div class="sbar-track"><div class="sbar-fill" style="width:44%"></div></div></div><div class="sbar"><span class="sbar-label">DFT</span><div class="sbar-track"><div class="sbar-fill" style="width:48%"></div></div></div><div class="sbar"><span class="sbar-label">TRN</span><div class="sbar-track"><div class="sbar-fill" style="width:45%"></div></div></div></div></div>
     <div class="vehicle-card" data-v="4"><h3>MOTORCYCLE</h3><div class="type">CHOPPER</div><div class="stat-bars"><div class="sbar"><span class="sbar-label">SPD</span><div class="sbar-track"><div class="sbar-fill" style="width:74%"></div></div></div><div class="sbar"><span class="sbar-label">ACC</span><div class="sbar-track"><div class="sbar-fill" style="width:80%"></div></div></div><div class="sbar"><span class="sbar-label">DFT</span><div class="sbar-track"><div class="sbar-fill" style="width:58%"></div></div></div><div class="sbar"><span class="sbar-label">TRN</span><div class="sbar-track"><div class="sbar-fill" style="width:78%"></div></div></div></div></div>
    </div>
-   
+
+   <div style="font-family:'Syncopate',sans-serif;font-size:9px;color:#ff88a5;font-weight:900;letter-spacing:2px;text-align:center;margin-bottom:6px;">CAR COLOR</div>
+   <div class="color-picker" id="colorPicker"></div>
+
    <div class="nav-buttons">
      <button class="action-btn back" id="btnBack2">BACK</button>
      <button class="action-btn" id="startBtn">START ENGINE</button>
@@ -591,6 +600,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
       <div class="vehicle-card" data-v="3"><h3>MONSTER TRUCK</h3><div class="type">TOUGH</div></div>
       <div class="vehicle-card" data-v="4"><h3>MOTORCYCLE</h3><div class="type">CHOPPER</div></div>
     </div>
+    <div style="font-family:'Syncopate',sans-serif;font-size:9px;color:#ff88a5;font-weight:900;letter-spacing:2px;text-align:center;margin-bottom:6px;">CAR COLOR</div>
+    <div class="color-picker" id="mpColorPicker"></div>
     <button class="menu-btn" id="mpJoinBtn">JOIN</button>
     <button class="menu-btn" id="mpJoinBackBtn" style="background:rgba(255,255,255,.08);color:#ccc;border-color:rgba(255,255,255,.2);">BACK</button>
   </div>
@@ -1116,6 +1127,13 @@ const vConfigs=[
 ];
 
 let selV=0, selT=0, selD='EASY', selMode='NORMAL';
+const COLOR_OPTIONS=[
+  {hex:'#ff003c',val:0xff003c},{hex:'#3b82f6',val:0x3b82f6},
+  {hex:'#22c55e',val:0x22c55e},{hex:'#f59e0b',val:0xf59e0b},
+  {hex:'#a855f7',val:0xa855f7},{hex:'#06b6d4',val:0x06b6d4},
+  {hex:'#ffffff',val:0xffffff},{hex:'#ff88a5',val:0xff88a5},
+];
+let selColor=COLOR_OPTIONS[0];
 
 const TRACK_NAMES=['NEON CITY','MOUNTAIN','RIVERSIDE','SNOW ISLAND'];
 const TRACK_BOT_TUNING=[
@@ -1770,15 +1788,22 @@ function clearSkidMarks(){
   skidMeshes.instanceMatrix.needsUpdate = true;
 }
 
-function createVehicle(config){
+function createVehicle(config, colorOverride){
   const g=new THREE.Group();
-  
+  const paintColor = colorOverride !== undefined ? colorOverride : config.color;
+
   if (loadedModels[config.name]) {
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
+    modelInstance.traverse(child=>{
+      if(child.isMesh && child.material && !child.material.transparent){
+        child.material=child.material.clone();
+        child.material.color.set(paintColor);
+      }
+    });
     g.add(modelInstance);
   } else {
-    const fallbackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 3), new THREE.MeshStandardMaterial({color: config.color}));
+    const fallbackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 3), new THREE.MeshStandardMaterial({color: paintColor}));
     fallbackMesh.position.y = 0.75;
     g.add(fallbackMesh);
   }
@@ -1808,8 +1833,8 @@ let racers=[],player,finishLineOrder=[],running=false,raceStarted=false,elapsed=
 let currentCameraFov = 65;
 let lastMiniDraw = 0; 
 
-function addRacer({isPlayer=false,config,offset,progress,botSpeed,skill=.8,lineAmp=3,react=5}){
-  const group=createVehicle(config);
+function addRacer({isPlayer=false,config,colorOverride,offset,progress,botSpeed,skill=.8,lineAmp=3,react=5}){
+  const group=createVehicle(config, colorOverride);
   scene.add(group);
   const s=sampleTrack(progress),pos=s.pos.clone().addScaledVector(s.normal,offset),heading=Math.atan2(s.tangent.x,s.tangent.z);
   group.position.copy(pos);group.position.y=.33;group.rotation.y=heading;
@@ -1820,7 +1845,7 @@ function addRacer({isPlayer=false,config,offset,progress,botSpeed,skill=.8,lineA
 function resetPlayerVehicle(){
   if(player){scene.remove(player.group);racers=racers.filter(r=>!r.player)}
   if(centerPoints.length > 0) {
-    player=addRacer({isPlayer:true,config:vConfigs[selV],offset:-2.5,progress:START_PROGRESS,botSpeed:0});
+    player=addRacer({isPlayer:true,config:vConfigs[selV],colorOverride:selColor.val,offset:-2.5,progress:START_PROGRESS,botSpeed:0});
     resetCamera();
   }
 }
@@ -2054,7 +2079,7 @@ function resetRaceState() {
     });
   });
 
-  player=addRacer({isPlayer:true,config:vConfigs[selV],offset:-2.5,progress:START_PROGRESS,botSpeed:0});
+  player=addRacer({isPlayer:true,config:vConfigs[selV],colorOverride:selColor.val,offset:-2.5,progress:START_PROGRESS,botSpeed:0});
   resetCamera();
   clearSkidMarks();
   createSnow();
@@ -2907,13 +2932,17 @@ function mpUpdateRoomUI(data){
   if($list) $list.innerHTML=ids.map(id=>{
     const p=players[id],isMe=id===mpPlayerId,isHost=id===data.host;
     const vn=(vConfigs[p.vehicle]||vConfigs[0]).name;
+    const dot=p.color?`<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;vertical-align:middle;border:1px solid rgba(255,255,255,.3);"></span>`:'';
     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:${isMe?'rgba(255,0,60,.2)':'rgba(255,255,255,.05)'};border:1px solid ${isMe?'rgba(255,0,60,.4)':'rgba(255,255,255,.08)'};">
-      <span style="font-family:'Syncopate',sans-serif;font-size:12px;font-weight:900;color:#fff;">${p.name||'PLAYER'}</span>
+      <span style="font-family:'Syncopate',sans-serif;font-size:12px;font-weight:900;color:#fff;">${dot}${p.name||'PLAYER'}</span>
       <span style="font-size:10px;color:#ff88a5;font-weight:700;">${isHost?'HOST · ':''}${vn}</span>
     </div>`;
   }).join('');
   if($st) $st.textContent=ids.length<2?'WAITING FOR PLAYERS...':`${ids.length}/4 PLAYERS READY`;
   if($sb){$sb.style.display=mpIsHost?'block':'none';$sb.disabled=ids.length<2;$sb.style.opacity=ids.length<2?'0.4':'1';}
+  // 중복 색상 방지: 다른 플레이어가 쓰는 색상 취함 표시
+  const takenColors=ids.filter(id=>id!==mpPlayerId).map(id=>players[id].color).filter(Boolean);
+  syncMpColorUI(takenColors);
 }
 
 async function mpCreate(){
@@ -2925,7 +2954,7 @@ async function mpCreate(){
     mpPlayerRef=rtdbRef(_rtdb,`rooms/${mpRoomCode}/players/${mpPlayerId}`);
     await rtdbSet(mpRoomRef,{
       host:mpPlayerId,track:selT,mode:selMode,difficulty:selD,state:'waiting',
-      players:{[mpPlayerId]:{name,vehicle:selV,ready:false,x:0,y:.33,z:0,heading:0,speed:0,lap:1,prog:START_PROGRESS,fin:false,finTime:0}}
+      players:{[mpPlayerId]:{name,vehicle:selV,color:selColor.hex,ready:false,x:0,y:.33,z:0,heading:0,speed:0,lap:1,prog:START_PROGRESS,fin:false,finTime:0}}
     });
     rtdbOff(mpRoomRef).remove();
     mpIsCreatingRoom=false;
@@ -2953,7 +2982,7 @@ async function mpJoin(){
     mpPlayerRef=rtdbRef(_rtdb,`rooms/${mpRoomCode}/players/${mpPlayerId}`);
     selT=data.track??0;selMode=data.mode||'NORMAL';selD=data.difficulty||'EASY';
     loadMap(selT);
-    await rtdbSet(mpPlayerRef,{name,vehicle:selV,ready:false,x:0,y:.33,z:0,heading:0,speed:0,lap:1,prog:START_PROGRESS,fin:false,finTime:0});
+    await rtdbSet(mpPlayerRef,{name,vehicle:selV,color:selColor.hex,ready:false,x:0,y:.33,z:0,heading:0,speed:0,lap:1,prog:START_PROGRESS,fin:false,finTime:0});
     rtdbOff(mpPlayerRef).remove();
     $('mpRoomCodeEl').textContent=mpRoomCode;
     mpShowPanel('mpRoomPanel');
@@ -3005,8 +3034,8 @@ function mpBeginRace(roomData){
       if(id===mpPlayerId)return;
       if(!mpRemotes[id]){
         const cfg=vConfigs[pd.vehicle??0]||vConfigs[0];
-        const tagColor=mpNextColor();
-        const grp=createVehicle(cfg);
+        const tagColor=pd.color||mpNextColor();
+        const grp=createVehicle(cfg, pd.color||undefined);
         grp.position.set(pd.x||0,pd.y||.33,pd.z||0);
         grp.rotation.y=pd.heading||0;
         grp.add(mpCreateNameTag(pd.name||'ONLINE',tagColor));
@@ -3060,7 +3089,7 @@ function mpSyncMyPos(dt){
   if(mpSyncAccum<MP_SYNC_IV)return;
   mpSyncAccum=0;
   rtdbSet(mpPlayerRef,{
-    name:mpGetName(),vehicle:selV,ready:true,
+    name:mpGetName(),vehicle:selV,color:selColor.hex,ready:true,
     x:player.pos.x,y:player.pos.y,z:player.pos.z,
     heading:player.heading,speed:player.vel.length(),
     lap:player.lap,prog:player.progress,
@@ -3129,6 +3158,41 @@ $('mpLeaveBtn').onclick=()=>{playClickSound();mpCleanup();mpShowLobby();};
 // Inputs
 $('mpCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter')mpJoin();});
 $('mpNameInput').addEventListener('change',e=>mpSaveName(e.target.value));
+
+// ── 색상 피커 초기화 ──
+function buildColorPicker(containerId, onPick){
+  const el=$(containerId);if(!el)return;
+  el.innerHTML=COLOR_OPTIONS.map((c,i)=>
+    `<div class="color-swatch${i===0?' active':''}" data-hex="${c.hex}" data-i="${i}" style="background:${c.hex};" title="${c.hex}"></div>`
+  ).join('');
+  el.querySelectorAll('.color-swatch').forEach(sw=>{
+    sw.onclick=()=>{
+      if(sw.classList.contains('taken'))return;
+      el.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('active'));
+      sw.classList.add('active');
+      selColor=COLOR_OPTIONS[parseInt(sw.dataset.i)];
+      onPick&&onPick();
+    };
+  });
+}
+
+function syncMpColorUI(takenHexes){
+  ['colorPicker','mpColorPicker'].forEach(pid=>{
+    const el=$(pid);if(!el)return;
+    el.querySelectorAll('.color-swatch').forEach(sw=>{
+      const isTaken=takenHexes.includes(sw.dataset.hex);
+      sw.classList.toggle('taken',isTaken);
+      // 내 선택이 취해졌으면 첫 번째 빈 색상으로 자동 이동
+      if(isTaken&&sw.classList.contains('active')){
+        const first=el.querySelector('.color-swatch:not(.taken)');
+        if(first){first.click();}
+      }
+    });
+  });
+}
+
+buildColorPicker('colorPicker',()=>resetPlayerVehicle());
+buildColorPicker('mpColorPicker',null);
 
 setupTouchControls();
 requestAnimationFrame(animate);
