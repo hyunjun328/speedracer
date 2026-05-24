@@ -1801,7 +1801,6 @@ function createVehicle(config, colorOverride){
         const applyTint = m => {
           const c = m.clone();
           c.color.set(colorOverride);
-          if(c.emissive){ c.emissive.set(colorOverride); c.emissiveIntensity=0.05; }
           c.needsUpdate = true;
           return c;
         };
