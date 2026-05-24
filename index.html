@@ -379,6 +379,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @media (pointer:coarse){
   .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(13vh,100px) + 2vw)!important;right:3vw!important;width:min(26vw,140px)!important;height:min(13vh,100px)!important;font-size:min(9vw,48px)!important;}
 }
+/* ── 태블릿 (터치 + 768px 이상) ── */
+@media (pointer:coarse) and (min-width:768px){
+  /* 버튼 크게 */
+  #tbLeft {width:min(12vw,130px);height:min(12vw,130px);font-size:min(5vw,42px);bottom:10vh;}
+  #tbRight{width:min(12vw,130px);height:min(12vw,130px);font-size:min(5vw,42px);bottom:10vh;left:calc(3vw + min(12vw,130px) + 2vw);}
+  #tbDrift{width:min(16vw,180px);height:min(10vh,120px);font-size:min(2.5vw,20px);}
+  #tbBrake{width:min(14vw,160px);height:min(10vh,120px);font-size:min(2vw,18px);right:calc(3vw + min(16vw,180px) + 2vw);}
+  #tbItem {width:min(16vw,180px);height:min(6vh,70px);font-size:min(1.8vw,16px);}
+
+  /* HUD */
+  .minimap{width:180px;height:180px;bottom:300px;}
+  .speedometer{width:150px;height:150px;bottom:300px;}
+  .speedometer:before{width:118px;height:118px;}
+  .speed-num{font-size:38px;}
+  .pos-num{font-size:44px;}
+  .stat-mini .value{font-size:20px;}
+
+  /* 아이템슬롯 */
+  .item-slot{width:min(10vw,110px)!important;height:min(10vw,110px)!important;font-size:min(6vw,54px)!important;bottom:calc(3vh + min(10vh,120px) + 2vw)!important;}
+
+  /* 메뉴 */
+  .menu-title{font-size:min(80px,10vw);}
+  .menu-btn{width:min(340px,60vw);font-size:min(22px,3vw);}
+  .vehicle-card{width:160px;padding:20px 12px;}
+  .title-group h2{font-size:min(120px,14vw);}
+  .selection-grid{gap:20px;}
+}
+
 .color-picker{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;margin-top:4px;}
 .color-swatch{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.18s;position:relative;outline:none;}
 .color-swatch:hover{transform:scale(1.18);}
