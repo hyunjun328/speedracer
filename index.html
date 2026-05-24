@@ -1795,6 +1795,20 @@ function createVehicle(config, colorOverride){
   if (loadedModels[config.name]) {
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
+    if(colorOverride !== undefined){
+      modelInstance.traverse(child=>{
+        if(!child.isMesh) return;
+        const applyTint = m => {
+          const c = m.clone();
+          c.color.set(colorOverride);
+          c.needsUpdate = true;
+          return c;
+        };
+        child.material = Array.isArray(child.material)
+          ? child.material.map(applyTint)
+          : applyTint(child.material);
+      });
+    }
     g.add(modelInstance);
   } else {
     const fallbackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 3), new THREE.MeshStandardMaterial({color: paintColor}));
