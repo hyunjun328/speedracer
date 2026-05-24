@@ -1128,10 +1128,14 @@ const vConfigs=[
 
 let selV=0, selT=0, selD='EASY', selMode='NORMAL';
 const COLOR_OPTIONS=[
-  {hex:'#ff003c',val:0xff003c},{hex:'#3b82f6',val:0x3b82f6},
-  {hex:'#22c55e',val:0x22c55e},{hex:'#f59e0b',val:0xf59e0b},
-  {hex:'#a855f7',val:0xa855f7},{hex:'#06b6d4',val:0x06b6d4},
-  {hex:'#ffffff',val:0xffffff},{hex:'#ff88a5',val:0xff88a5},
+  {hex:'#e8001c',val:0xe8001c},  // red
+  {hex:'#1d6fff',val:0x1d6fff},  // blue
+  {hex:'#f5c400',val:0xf5c400},  // yellow
+  {hex:'#ffffff',val:0xffffff},  // white
+  {hex:'#111111',val:0x111111},  // black
+  {hex:'#16c94e',val:0x16c94e},  // green
+  {hex:'#ff5ca8',val:0xff5ca8},  // pink
+  {hex:'#888888',val:0x888888},  // gray
 ];
 let selColor=COLOR_OPTIONS[0];
 
@@ -1798,7 +1802,9 @@ function createVehicle(config, colorOverride){
     modelInstance.traverse(child=>{
       if(child.isMesh && child.material){
         child.material=child.material.clone();
+        child.material.map=null;
         child.material.color.set(paintColor);
+        child.material.needsUpdate=true;
       }
     });
     g.add(modelInstance);
