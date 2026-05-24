@@ -556,6 +556,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
     <div class="menu-title" style="font-size:min(36px,9vw);">JOIN ROOM</div>
     <div id="mpJoinError" style="display:none;color:#ff4466;font-family:'Syncopate',sans-serif;font-size:11px;font-weight:900;letter-spacing:2px;padding:8px 16px;background:rgba(255,0,60,.1);border:1px solid rgba(255,0,60,.3);border-radius:6px;text-align:center;max-width:280px;"></div>
     <input id="mpCodeInput" placeholder="CODE" maxlength="4" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,0,60,.4);border-radius:8px;padding:14px 22px;color:#fff;font-family:'Syncopate',sans-serif;font-size:28px;font-weight:900;width:200px;text-align:center;text-transform:uppercase;letter-spacing:8px;outline:none;-webkit-user-select:text!important;user-select:text!important;touch-action:auto!important;pointer-events:all!important;">
+    <div style="color:#ff88a5;font-family:'Syncopate',sans-serif;font-size:11px;font-weight:900;letter-spacing:2px;">SELECT VEHICLE</div>
+    <div class="selection-grid" id="mpJoinVehicleGrid">
+      <div class="vehicle-card active" data-v="0"><h3>RACING KART</h3><div class="type">BALANCED</div></div>
+      <div class="vehicle-card" data-v="1"><h3>RACE CAR</h3><div class="type">SPEED</div></div>
+      <div class="vehicle-card" data-v="2"><h3>SEDAN</h3><div class="type">DRIFT</div></div>
+      <div class="vehicle-card" data-v="3"><h3>MONSTER TRUCK</h3><div class="type">TOUGH</div></div>
+      <div class="vehicle-card" data-v="4"><h3>MOTORCYCLE</h3><div class="type">CHOPPER</div></div>
+    </div>
     <button class="menu-btn" id="mpJoinBtn">JOIN</button>
     <button class="menu-btn" id="mpJoinBackBtn" style="background:rgba(255,255,255,.08);color:#ccc;border-color:rgba(255,255,255,.2);">BACK</button>
   </div>
@@ -1068,11 +1076,11 @@ $('btnBack2').onclick = () => switchStep('step3', 'step2');
 
 const vConfigs=[
   // turnRate: 조향 민감도, grip: 횡방향 접지력 (낮을수록 잘 미끄러짐), driftRate: 드리프트 미터 충전 속도
-  {name:'RACING KART',  color:0xff003c, accel:63, max:83, turnRate:1.7, grip:0.40, driftRate:110, isBike:false},
-  {name:'RACE CAR',     color:0x3b82f6, accel:62, max:90, turnRate:1.3, grip:0.22, driftRate:76,  isBike:false},
-  {name:'SEDAN',        color:0xff2a5f, accel:58, max:79, turnRate:2.0, grip:0.58, driftRate:152, isBike:false},
-  {name:'MONSTER TRUCK',color:0xf59e0b, accel:68, max:86, turnRate:1.4, grip:0.35, driftRate:95,  isBike:false},
-  {name:'MOTORCYCLE',   color:0xff003c, accel:65, max:85, turnRate:1.9, grip:0.36, driftRate:118, isBike:true}
+  {name:'RACING KART',  color:0xff003c, accel:62, max:84, turnRate:1.7, grip:0.40, driftRate:110, isBike:false},
+  {name:'RACE CAR',     color:0x3b82f6, accel:62, max:87, turnRate:1.3, grip:0.22, driftRate:76,  isBike:false},
+  {name:'SEDAN',        color:0xff2a5f, accel:61, max:82, turnRate:2.0, grip:0.58, driftRate:152, isBike:false},
+  {name:'MONSTER TRUCK',color:0xf59e0b, accel:63, max:85, turnRate:1.4, grip:0.35, driftRate:95,  isBike:false},
+  {name:'MOTORCYCLE',   color:0xff003c, accel:64, max:86, turnRate:1.9, grip:0.36, driftRate:118, isBike:true}
 ];
 
 let selV=0, selT=0, selD='EASY', selMode='NORMAL';
@@ -3029,6 +3037,12 @@ $('mpCreateContinueBtn').onclick=()=>{
 $('mpCreateBackBtn').onclick=()=>{playClickSound();mpShowPanel('mpChoicePanel');};
 
 // Join setup
+document.querySelectorAll('#mpJoinVehicleGrid .vehicle-card').forEach(c=>c.onclick=()=>{
+  playClickSound();
+  document.querySelectorAll('#mpJoinVehicleGrid .vehicle-card').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');
+  selV=parseInt(c.dataset.v,10);
+});
 $('mpJoinBtn').onclick=()=>{playClickSound();mpJoin();};
 $('mpJoinBackBtn').onclick=()=>{playClickSound();mpShowPanel('mpChoicePanel');};
 
