@@ -1799,11 +1799,6 @@ function createVehicle(config, colorOverride){
   if (loadedModels[config.name]) {
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
-    modelInstance.traverse(child=>{
-      if(!child.isMesh) return;
-      const newMat=new THREE.MeshLambertMaterial({color:paintColor});
-      child.material=Array.isArray(child.material)?child.material.map(()=>newMat):newMat;
-    });
     g.add(modelInstance);
   } else {
     const fallbackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 3), new THREE.MeshStandardMaterial({color: paintColor}));
