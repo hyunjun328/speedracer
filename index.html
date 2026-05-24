@@ -338,11 +338,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .stat-mini .label{font-size:8px}
   .stat-row-sub{gap:10px}
 
-  /* 미니맵 — 터치버튼(최대 bottom:220) 위로 */
-  .minimap{width:115px;height:115px;left:8px;bottom:240px}
+  /* 미니맵 — 왼쪽 세로 중앙 */
+  .minimap{width:115px;height:115px;left:8px;bottom:auto;top:50%;transform:translateY(-50%)}
 
-  /* 스피드미터 — 같은 높이, 우측 */
-  .speedometer{width:110px;height:110px;right:8px;bottom:240px}
+  /* 스피드미터 — 오른쪽 세로 중앙 */
+  .speedometer{width:110px;height:110px;right:8px;bottom:auto;top:50%;transform:translateY(-50%)}
   .speedometer:before{width:86px;height:86px}
   .speed-num{font-size:28px}
   .speed-unit{font-size:9px}
@@ -363,21 +363,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .menu-title{font-size:min(60px,15vw)}
   .menu-btn{width:min(280px,80vw);padding:14px 20px;font-size:min(20px,4.5vw)}
   #lobbyOverlay .menu-btn{width:auto;min-width:min(220px,70vw);font-size:min(16px,4vw);}
-  .vehicle-card{width:120px;padding:14px 8px}
+  .vehicle-card{width:140px;padding:14px 8px}
 }
 .touch-btn{position:absolute;pointer-events:all;background:rgba(255,0,60,.18);border:2px solid rgba(255,0,60,.5);border-radius:16px;color:#fff;font-family:'Syncopate',sans-serif;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:none;-webkit-tap-highlight-color:transparent;transition:background .08s,border-color .08s,box-shadow .08s;}
 .touch-btn.pressed{background:rgba(255,0,60,.52);border-color:#ff003c;box-shadow:0 0 22px rgba(255,0,60,.55);}
 #tbLeft {left:3vw; bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
 #tbRight{left:calc(3vw + min(20vw,110px) + 2vw); bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
-#tbDrift{right:3vw; bottom:3vh; width:min(26vw,140px); height:min(13vh,100px); font-size:min(3.5vw,16px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
+#tbDrift{right:3vw; bottom:3vh; width:min(30vw,165px); height:min(16vh,125px); font-size:min(4vw,20px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
 #tbDrift.pressed{background:rgba(255,136,165,.45);border-color:#ff88a5;box-shadow:0 0 36px rgba(255,136,165,.6);}
-#tbBrake{right:calc(3vw + min(26vw,140px) + 2vw); bottom:3vh; width:min(24vw,130px); height:min(12vh,100px); font-size:min(3vw,15px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
+#tbBrake{right:calc(3vw + min(30vw,165px) + 2vw); bottom:3vh; width:min(28vw,155px); height:min(15vh,125px); font-size:min(3.5vw,18px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
 #tbBrake.pressed{background:rgba(220,0,0,.8);border-color:#ff2020;box-shadow:0 0 34px rgba(255,0,0,.75);}
-#tbItem {right:3vw; bottom:calc(3vh + min(13vh,100px) + 1vh); width:min(26vw,160px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
+#tbItem {right:3vw; bottom:calc(3vh + min(16vh,125px) + 1vh); width:min(30vw,165px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
 #tbItem.pressed{background:rgba(255,200,0,.38);border-color:rgba(255,200,0,.8);}
 
 @media (pointer:coarse){
-  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(13vh,100px) + 2vw)!important;right:3vw!important;width:min(26vw,140px)!important;height:min(13vh,100px)!important;font-size:min(9vw,48px)!important;}
+  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(16vh,125px) + 2vw)!important;right:3vw!important;width:min(30vw,165px)!important;height:min(16vh,125px)!important;font-size:min(9vw,52px)!important;}
 }
 /* ── 태블릿 (터치 + 768px 이상) ── */
 @media (pointer:coarse) and (min-width:768px){
@@ -411,11 +411,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @media (pointer:coarse) and (orientation:landscape) and (max-height:500px){
   #overlay{padding:6px 0;}
   .title-group{margin-bottom:4px;}
-  .title-group h2{font-size:min(26px,5vh);}
+  .title-group h2{font-size:min(40px,8vh);}
   .subtitle{display:none;}
   .preview-container{width:110px;height:110px;margin-bottom:6px;}
   .selection-grid{gap:8px;margin-bottom:6px;}
-  .vehicle-card{width:80px;padding:7px 5px;}
+  .vehicle-card{width:100px;padding:7px 5px;}
   .vehicle-card h3{font-size:9px;margin-bottom:6px;}
   .diff-group{margin-bottom:6px;}
   .nav-buttons{margin-top:8px;margin-bottom:8px;gap:12px;}
@@ -2309,7 +2309,7 @@ function triggerAutoBoost(){player.drift=0;driftWarnTimer=0;driftMeter.classList
 
 function updatePlayer(dt){
   if(touchControlsActive && mobileAutoForward) keys.add('arrowup');
-  let up=keys.has('arrowup'),down=keys.has('arrowdown'),left=keys.has('arrowleft'),right=keys.has('arrowright'),shift=keys.has('shift');
+  let up=keys.has('arrowup'),down=keys.has('arrowdown'),touchBrake=keys.has('touchbrake'),left=keys.has('arrowleft'),right=keys.has('arrowright'),shift=keys.has('shift');
   
   if(player.stunTimer > 0) {
       player.stunTimer -= dt;
@@ -2333,7 +2333,8 @@ function updatePlayer(dt){
 
   if(up)player.vel.addScaledVector(fwd,(boostActive?66:player.accel)*dt);
   if(down)player.vel.addScaledVector(fwd,-player.accel*.8*dt);
-  if(!up&&!down)player.vel.multiplyScalar(Math.pow(.990,dt*60));
+  if(touchBrake&&player.vel.dot(fwd)>1)player.vel.addScaledVector(fwd,-player.accel*.8*dt);
+  if(!up&&!down&&!touchBrake)player.vel.multiplyScalar(Math.pow(.990,dt*60));
   if(player.stunTimer>0) player.vel.multiplyScalar(Math.pow(0.95, dt*60)); 
 
   const fSpd=player.vel.dot(fwd),lSpd=player.vel.dot(rightVec);
@@ -2887,7 +2888,7 @@ function setupTouchControls(){
   tc.classList.add('active');
   touchControlsActive=true;
 
-  const bindings={tbLeft:'arrowleft',tbRight:'arrowright',tbBrake:'arrowdown',tbDrift:'shift',tbItem:'z'};
+  const bindings={tbLeft:'arrowleft',tbRight:'arrowright',tbDrift:'shift',tbItem:'z'};
 
   Object.entries(bindings).forEach(([id,key])=>{
     const btn=document.getElementById(id);
@@ -2907,6 +2908,14 @@ function setupTouchControls(){
       btn.classList.remove('pressed');
     });
   });
+
+  // 브레이크 버튼 — 전진 중에만 제동 (후진 없음)
+  const brakeBtn=document.getElementById('tbBrake');
+  if(brakeBtn){
+    brakeBtn.addEventListener('touchstart',e=>{e.preventDefault();keys.add('touchbrake');brakeBtn.classList.add('pressed');},{passive:false});
+    brakeBtn.addEventListener('touchend',e=>{e.preventDefault();keys.delete('touchbrake');brakeBtn.classList.remove('pressed');},{passive:false});
+    brakeBtn.addEventListener('touchcancel',()=>{keys.delete('touchbrake');brakeBtn.classList.remove('pressed');});
+  }
 
   // 레이스 종료/홈 이동 시 ITEM 버튼 가시성 관리
   const origUpdateMobileUI=updateMobileModeUI;
