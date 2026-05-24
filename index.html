@@ -231,6 +231,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @keyframes victoryIn{0%{transform:scale(0.3) translateY(-30px);opacity:0}55%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
 #finishMenu.victory .menu-title{animation:victoryIn .7s cubic-bezier(.17,.67,.2,1.2) forwards;background:linear-gradient(90deg,#ffd700,#ff8c00,#ffd700);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none;filter:drop-shadow(0 0 28px rgba(255,200,0,.55))}
 
+/* ── 멀티 결과 테이블 ── */
+#mpResultSection{display:none;width:min(520px,90vw);margin:0 auto 20px;}
+.mp-rank-row{display:flex;align-items:center;gap:16px;padding:18px 24px;border-radius:14px;margin-bottom:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.mp-rank-row.me{background:rgba(255,0,60,.18);border-color:rgba(255,0,60,.5);box-shadow:0 0 22px rgba(255,0,60,.2);}
+.mp-rank-row:first-child{background:rgba(255,200,0,.08);border-color:rgba(255,200,0,.3);}
+.mp-rank-row:first-child.me{background:rgba(255,200,0,.18);border-color:rgba(255,200,0,.55);}
+.mp-pos{font-family:'Syncopate',sans-serif;font-size:30px;font-weight:900;color:#fff;min-width:70px;}
+.mp-pos sup{font-size:14px;color:#ff88a5;vertical-align:super;}
+.mp-rank-row:first-child .mp-pos{color:#ffd700;}
+.mp-rank-row:first-child .mp-pos sup{color:#ffb700;}
+.mp-name{flex:1;font-size:20px;font-weight:900;font-family:'Syncopate',sans-serif;color:#fff;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mp-time{font-size:22px;font-weight:900;color:#ff88a5;font-family:'Syncopate',sans-serif;white-space:nowrap;}
+.mp-rank-row:first-child .mp-time{color:#ffd700;}
+.mp-medal{font-size:28px;min-width:36px;text-align:center;}
+
+/* ── 1등 빛 이펙트 ── */
+@keyframes winnerBeam{0%{opacity:1;transform:scale(1.1)}40%{opacity:.7}100%{opacity:0;transform:scale(1.3)}}
+@keyframes winnerRing{0%{opacity:.9;transform:translate(-50%,-50%) scale(0.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.5)}}
+#winnerBeam{position:fixed;inset:0;pointer-events:none;z-index:197;background:radial-gradient(ellipse at center,rgba(255,220,0,.65) 0%,rgba(255,160,0,.25) 30%,transparent 65%);animation:winnerBeam 1.8s ease-out forwards;}
+#winnerRing{position:fixed;left:50%;top:50%;width:600px;height:600px;border-radius:50%;border:4px solid rgba(255,220,0,.7);pointer-events:none;z-index:196;animation:winnerRing 1.2s ease-out forwards;}
+
 /* ── 글로벌 리더보드 ── */
 .lb-section{margin:16px auto 0;width:min(460px,88vw)}
 .lb-title{font-family:'Syncopate',sans-serif;font-size:11px;color:#ff88a5;letter-spacing:2px;margin-bottom:8px;text-align:center}
@@ -342,10 +363,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 #tbRight{left:calc(3vw + min(20vw,110px) + 2vw); bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
 #tbDrift{right:3vw; bottom:3vh; width:min(26vw,140px); height:min(13vh,100px); font-size:min(3.5vw,16px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
 #tbDrift.pressed{background:rgba(255,136,165,.45);border-color:#ff88a5;box-shadow:0 0 36px rgba(255,136,165,.6);}
-#tbBrake{right:calc(3vw + min(26vw,140px) + 2vw); bottom:6vh; width:min(24vw,130px); height:min(12vh,100px); font-size:min(3vw,15px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
+#tbBrake{right:calc(3vw + min(26vw,140px) + 2vw); bottom:3vh; width:min(24vw,130px); height:min(12vh,100px); font-size:min(3vw,15px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
 #tbBrake.pressed{background:rgba(220,0,0,.8);border-color:#ff2020;box-shadow:0 0 34px rgba(255,0,0,.75);}
 #tbItem {right:3vw; bottom:calc(3vh + min(13vh,100px) + 1vh); width:min(26vw,160px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
 #tbItem.pressed{background:rgba(255,200,0,.38);border-color:rgba(255,200,0,.8);}
+
+@media (pointer:coarse){
+  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(13vh,100px) + 2vw)!important;right:3vw!important;width:min(26vw,140px)!important;height:min(13vh,100px)!important;font-size:min(9vw,48px)!important;}
+}
 
 </style>
 </head>
@@ -500,6 +525,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 
 <div id="finishMenu">
     <div class="menu-title" id="finishTitle">RACE FINISHED</div>
+    <div id="mpResultSection"></div>
     <div class="result-group">
         <div class="rank-value" id="finishRank">FINAL RANK: 1st</div>
         <div class="time-value" id="finishTime">TIME: 0.00</div>
@@ -884,6 +910,11 @@ function goHome(){
   pauseMenu.style.display = 'none';
   finishMenu.style.display = 'none';
   finishMenu.classList.remove('victory');
+  finishRank.style.display='';finishTime.style.display='';
+  const _mpSec=$('mpResultSection');if(_mpSec)_mpSec.style.display='none';
+  const _lbSec=$('lbSection');if(_lbSec)_lbSec.style.display='block';
+  const _fRec=$('finishRecord');if(_fRec)_fRec.style.display='';
+  ['winnerBeam','winnerRing'].forEach(id=>{const e=document.getElementById(id);if(e)e.remove();});
   hud.style.display = 'none';
   if(speedVignetteEl) speedVignetteEl.style.opacity='0';
   if(boostFlashEl) boostFlashEl.style.opacity='0';
@@ -2411,69 +2442,98 @@ async function submitScore(name,time){
   }
 }
 
+function spawnWinnerBeam(){
+  ['winnerBeam','winnerRing'].forEach(id=>{
+    const old=document.getElementById(id);if(old)old.remove();
+    const el=document.createElement('div');
+    el.id=id;
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  });
+}
+
 function showFinish(){
   running = false;
   clearSkidMarks();
+  const wasMp = mpActive;
   const rank=finishLineOrder.indexOf(player)+1;
   const suffix = rank===1?'st':rank===2?'nd':rank===3?'rd':'th';
   const myTime = Number(elapsed.toFixed(2));
-  const recordResult = saveAndCompareBestRecord(myTime);
 
   finishTitle.textContent = rank === 1 ? "VICTORY!" : "RACE FINISHED";
-  if(rank===1){finishMenu.classList.add('victory');spawnConfetti();}
-  else finishMenu.classList.remove('victory');
-  finishRank.innerHTML = `FINAL RANK: <span style="color:#ff003c;">${rank}${suffix}</span>`;
-  finishTime.textContent = `TIME: ${myTime.toFixed(2)}s`;
-
-  if(finishRecord){
-    const trackName=TRACK_NAMES[selT]||`TRACK ${selT+1}`;
-    let html='';
-    if(recordResult.isNew && recordResult.previous===null){
-      html+=`<div class="record-title new">FIRST RECORD</div>`+
-        `<div><strong>${trackName} / ${selD}</strong></div>`+
-        `<div>최고기록: <span>${myTime.toFixed(2)}s</span></div>`;
-    } else if(recordResult.isNew){
-      html+=`<div class="record-title new">NEW BEST RECORD</div>`+
-        `<div><strong>${trackName} / ${selD}</strong></div>`+
-        `<div>이전: <span>${recordResult.previous.toFixed(2)}s</span></div>`+
-        `<div>내 기록: <span>${myTime.toFixed(2)}s</span></div>`;
-    } else {
-      const diff=myTime-recordResult.best;
-      html+=`<div class="record-title">BEST RECORD</div>`+
-        `<div><strong>${trackName} / ${selD}</strong></div>`+
-        `<div>최고기록: <span>${recordResult.best.toFixed(2)}s</span></div>`+
-        `<div>내 기록: <span>${myTime.toFixed(2)}s</span> (+${diff.toFixed(2)}s)</div>`;
-    }
-    if(player.lapSplits.length){
-      const bestLapTime=Math.min(...player.lapSplits);
-      html+=`<div style="margin-top:10px;border-top:1px solid rgba(255,0,60,.2);padding-top:8px;font-size:12px;">`;
-      player.lapSplits.forEach((t,i)=>{
-        const isBest=t===bestLapTime;
-        html+=`<div style="color:${isBest?'#fff':'#ff88a5'}">LAP ${i+1}: <strong>${t.toFixed(2)}s</strong>${isBest?' ★':''}`;
-        if(i>0){const d=t-player.lapSplits[i-1];html+=` <span style="color:${d<0?'#4ade80':'#f87171'}">${d>=0?'+':''}${d.toFixed(2)}s</span>`;}
-        html+=`</div>`;
-      });
-      html+=`</div>`;
-    }
-    finishRecord.innerHTML=html;
+  if(rank===1){
+    finishMenu.classList.add('victory');
+    spawnConfetti();
+    if(wasMp) spawnWinnerBeam();
+  } else {
+    finishMenu.classList.remove('victory');
   }
 
-  // 리더보드 초기화
-  _lbSubmitted=false; _lbMyName='';
-  const lbInputRow=$('lbInputRow'), nickInput=$('nicknameInput'), subBtn=$('submitScoreBtn'), lbTitleEl=$('lbTitle');
-  if(lbInputRow) lbInputRow.style.display='flex';
-  if(nickInput){nickInput.value='';nickInput.disabled=false;}
-  if(subBtn){subBtn.disabled=false;subBtn.textContent='SUBMIT';}
-  if(lbTitleEl) lbTitleEl.textContent=`GLOBAL TOP 10 — ${TRACK_NAMES[selT]} / ${selD}`;
-  if(subBtn) subBtn.onclick=()=>{
-    const n=(nickInput?.value||'').trim();
-    if(!n||_lbSubmitted) return;
-    submitScore(n, myTime);
-  };
-  fetchLeaderboard();
+  const mpSec=$('mpResultSection'), lbSec=$('lbSection');
 
-  finishMenu.style.display = 'flex';
+  if(wasMp){
+    finishRank.style.display='none';
+    finishTime.style.display='none';
+    if(finishRecord){finishRecord.innerHTML='';finishRecord.style.display='none';}
+    if(lbSec) lbSec.style.display='none';
+    if(mpSec){
+      const allRanked=ranked();
+      mpSec.innerHTML=allRanked.map((r,i)=>{
+        const p=i+1,sf=p===1?'ST':p===2?'ND':p===3?'RD':'TH';
+        const t=r.finished?`${Number(r.finishTime).toFixed(2)}s`:'DNF';
+        const medal=p===1?'🥇':p===2?'🥈':p===3?'🥉':'';
+        return `<div class="mp-rank-row${r.player?' me':''}"><span class="mp-pos">${p}<sup>${sf}</sup></span><span class="mp-name">${r.name}</span><span class="mp-time">${t}</span><span class="mp-medal">${medal}</span></div>`;
+      }).join('');
+      mpSec.style.display='block';
+    }
+  } else {
+    finishRank.style.display='';
+    finishTime.style.display='';
+    if(mpSec) mpSec.style.display='none';
+    if(lbSec) lbSec.style.display='block';
 
+    const recordResult=saveAndCompareBestRecord(myTime);
+    finishRank.innerHTML=`FINAL RANK: <span style="color:#ff003c;">${rank}${suffix}</span>`;
+    finishTime.textContent=`TIME: ${myTime.toFixed(2)}s`;
+
+    if(finishRecord){
+      finishRecord.style.display='';
+      const trackName=TRACK_NAMES[selT]||`TRACK ${selT+1}`;
+      let html='';
+      if(recordResult.isNew && recordResult.previous===null){
+        html+=`<div class="record-title new">FIRST RECORD</div>`+
+          `<div><strong>${trackName} / ${selD}</strong></div>`+
+          `<div>최고기록: <span>${myTime.toFixed(2)}s</span></div>`;
+      } else if(recordResult.isNew){
+        html+=`<div class="record-title new">NEW BEST RECORD</div>`+
+          `<div><strong>${trackName} / ${selD}</strong></div>`+
+          `<div>이전: <span>${recordResult.previous.toFixed(2)}s</span></div>`+
+          `<div>내 기록: <span>${myTime.toFixed(2)}s</span></div>`;
+      } else {
+        const diff=myTime-recordResult.best;
+        html+=`<div class="record-title">BEST RECORD</div>`+
+          `<div><strong>${trackName} / ${selD}</strong></div>`+
+          `<div>최고기록: <span>${recordResult.best.toFixed(2)}s</span></div>`+
+          `<div>내 기록: <span>${myTime.toFixed(2)}s</span> (+${diff.toFixed(2)}s)</div>`;
+      }
+      finishRecord.innerHTML=html;
+    }
+
+    _lbSubmitted=false; _lbMyName='';
+    const lbInputRow=$('lbInputRow'),nickInput=$('nicknameInput'),subBtn=$('submitScoreBtn'),lbTitleEl=$('lbTitle');
+    if(lbInputRow) lbInputRow.style.display='flex';
+    if(nickInput){nickInput.value='';nickInput.disabled=false;}
+    if(subBtn){subBtn.disabled=false;subBtn.textContent='SUBMIT';}
+    if(lbTitleEl) lbTitleEl.textContent=`GLOBAL TOP 10 — ${TRACK_NAMES[selT]} / ${selD}`;
+    if(subBtn) subBtn.onclick=()=>{
+      const n=(nickInput?.value||'').trim();
+      if(!n||_lbSubmitted) return;
+      submitScore(n,myTime);
+    };
+    fetchLeaderboard();
+  }
+
+  finishMenu.style.display='flex';
   if(driftGain)driftGain.gain.setTargetAtTime(0,audioCtx.currentTime,.1);
   if(engineGain)engineGain.gain.setTargetAtTime(0,audioCtx.currentTime,.1);
   bgmGame.pause(); bgmGamePlaying=false;
