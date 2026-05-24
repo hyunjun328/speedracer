@@ -87,7 +87,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 
 #pauseMenu, #finishMenu {display:none; position:fixed; inset:0; background:rgba(5,0,0,0.92); z-index:200;flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);overflow-y:auto;}
 #lapPauseBar{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(5,0,0,.78);border:1px solid rgba(255,0,60,.35);border-radius:10px;padding:5px 14px;white-space:nowrap;z-index:5;}
-#hudPauseBtn{background:rgba(255,0,60,.2);border:1px solid rgba(255,0,60,.5);border-radius:7px;color:#ff88a5;font-size:15px;width:30px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;pointer-events:auto;margin-bottom:4px;align-self:flex-end;}
+#hudPauseBtn{background:rgba(255,0,60,.1);border:1px solid rgba(255,0,60,.28);border-radius:7px;color:rgba(255,136,165,.7);font-size:18px;width:36px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;pointer-events:auto;}
 .menu-title { font-family:'Syncopate',sans-serif; font-size:60px; font-weight:900; font-style:italic; color:#fff; text-shadow:0 0 30px #ff003c; margin-bottom:40px; letter-spacing:2px; text-align:center; }
 .menu-btn { padding:15px 60px; margin:10px; background:rgba(255,0,60,0.1); border:2px solid #ff003c; color:#fff; font-family:'Syncopate',sans-serif; font-size:20px; font-weight:900; font-style:italic; cursor:pointer; transition:0.2s; border-radius:5px; box-shadow:0 0 15px rgba(255,0,60,0.2); width: 280px; text-align: center; }
 .menu-btn:hover { background:#ff003c; color:#fff; box-shadow:0 0 30px #ff003c; transform:scale(1.05); }
@@ -297,12 +297,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 .rank-row.player{color:#ff003c;text-shadow:0 0 5px rgba(255,0,60,.5)}
 
 /* ── HUD 스탯 패널 ── */
-.stats-new{padding:12px 18px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:190px}
+.stats-new{padding:12px 18px;display:flex;flex-direction:row;align-items:center;gap:10px;min-width:190px}
+.stats-left{display:flex;flex-direction:column;align-items:flex-end;}
 .pos-num{font-family:'Syncopate',sans-serif;font-size:50px;font-weight:900;line-height:1;color:#fff;text-align:right}
 .pos-num sup{font-size:17px;color:#ff003c;vertical-align:8px}
 .stat-row-sub{display:flex;gap:20px;align-items:flex-end}
 .stat-mini .label{color:#ff88a5;font-size:9px;font-weight:900;letter-spacing:1.5px;text-align:right}
-.stat-mini .value{font-size:22px;font-weight:900;font-family:'Syncopate',sans-serif;text-align:right}
+.stat-mini .value{font-size:22px;font-weight:900;font-family:'Syncopate',sans-serif;text-align:right;font-variant-numeric:tabular-nums;}
+#time{min-width:3.2ch;display:inline-block;}
 
 /* ── 메뉴 스테퍼 ── */
 .stepper{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:24px}
@@ -330,6 +332,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @media (pointer:coarse){
   /* 키보드 힌트 숨김 */
   .controls{display:none!important}
+  .pc-only{display:none!important}
 
   /* 상단 HUD 압축 */
   .top{top:8px;left:8px;right:8px;gap:6px}
@@ -387,8 +390,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 @media (pointer:coarse){
   .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(28vh,195px) + 2vw)!important;right:3vw!important;width:min(30vw,165px)!important;height:min(28vh,195px)!important;font-size:min(9vw,52px)!important;}
 }
-/* ── 태블릿 (터치 + 768px 이상) ── */
-@media (pointer:coarse) and (min-width:768px){
+/* ── 태블릿 (터치 + 768px 이상 + 높이 600px 이상) ── */
+@media (pointer:coarse) and (min-width:768px) and (min-height:600px){
   /* 버튼 크게 */
   #tbLeft {width:min(12vw,130px);height:min(12vw,130px);font-size:min(5vw,42px);bottom:10vh;}
   #tbRight{width:min(12vw,130px);height:min(12vw,130px);font-size:min(5vw,42px);bottom:10vh;left:calc(3vw + min(12vw,130px) + 2vw);}
@@ -444,6 +447,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   #mpResultSection{margin-bottom:6px;}
   .lb-section{margin:4px auto 0;}
   .lb-input-row{margin-bottom:8px;}
+  /* HUD 소형화 강제 */
+  .minimap{width:36px!important;height:36px!important;left:22px!important;top:50%!important;transform:translateY(-50%)!important;bottom:auto!important;}
+  .speedometer{width:35px!important;height:35px!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;bottom:auto!important;}
+  .speedometer:before{width:27px!important;height:27px!important;}
+  .speed-num{font-size:10px!important;}
+  .speed-unit{font-size:5px!important;}
 }
 
 .color-picker{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;margin-top:4px;}
@@ -488,11 +497,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   <div class="panel rank-panel"><div class="rank-list" id="rankList"></div></div>
   <div class="controls"><span class="key">↑ 가속</span><span class="key">↓ 브레이크</span><span class="key">← → 조향</span><span class="key">SHIFT 드리프트</span><span class="key">Z 아이템</span><span class="key">SPACE 일시정지 / 메뉴</span><span class="key">M 음소거</span></div>
   <div class="panel stats-new">
-   <button id="hudPauseBtn">⏸</button>
-   <div class="pos-num" id="rank">1<sup>ST</sup></div>
-   <div class="stat-row-sub">
-    <div class="stat-mini"><div class="label">TIME</div><div class="value" id="time">0.00</div></div>
+   <div class="stats-left">
+    <div class="pos-num" id="rank">1<sup>ST</sup></div>
+    <div class="stat-row-sub">
+     <div class="stat-mini"><div class="label">TIME</div><div class="value" id="time">0.00</div></div>
+    </div>
    </div>
+   <button id="hudPauseBtn">⏸</button>
   </div>
  </div>
  <div id="lapPauseBar">
@@ -500,7 +511,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
  </div>
  <div class="minimap"><canvas id="mini"></canvas></div>
  
- <div class="item-slot" id="itemSlot"></div> <div class="drift-label" id="boostLabel">SHIFT DRIFT → AUTO BOOST</div><div class="drift-meter" id="driftMeter"><div class="drift-fill" id="driftFill"></div></div>
+ <div class="item-slot" id="itemSlot"></div> <div class="drift-label" id="boostLabel"><span class="pc-only">SHIFT </span>DRIFT → AUTO BOOST</div><div class="drift-meter" id="driftMeter"><div class="drift-fill" id="driftFill"></div></div>
  <div class="speedometer" id="speedMeter"><div class="speed-inner"><div class="speed-num" id="speed">0</div><div class="speed-unit">KM/H</div></div></div>
  <div class="countdown" id="countdown">3</div><div class="toast" id="toast">AUTO BOOST!</div>
  <div class="lap-banner" id="lapBanner">LAP 2</div>
