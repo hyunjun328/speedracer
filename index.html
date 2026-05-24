@@ -407,6 +407,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .selection-grid{gap:20px;}
 }
 
+/* ── 모바일 가로 (소형 화면, 태블릿 제외) ── */
+@media (pointer:coarse) and (orientation:landscape) and (max-width:767px){
+  #overlay{padding:6px 0;}
+  .title-group{margin-bottom:4px;}
+  .title-group h2{font-size:min(26px,5vh);}
+  .subtitle{display:none;}
+  .preview-container{width:110px;height:110px;margin-bottom:6px;}
+  .selection-grid{gap:8px;margin-bottom:6px;}
+  .vehicle-card{width:80px;padding:7px 5px;}
+  .vehicle-card h3{font-size:9px;margin-bottom:6px;}
+  .diff-group{margin-bottom:6px;}
+  .nav-buttons{margin-top:8px;margin-bottom:8px;gap:12px;}
+  .menu-btn{padding:10px 16px;font-size:min(16px,3.5vw);}
+  .color-picker{margin-bottom:6px;margin-top:2px;}
+  .menu-title{font-size:min(36px,7vh);}
+}
+
 .color-picker{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;margin-top:4px;}
 .color-swatch{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.18s;position:relative;outline:none;}
 .color-swatch:hover{transform:scale(1.18);}
