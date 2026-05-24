@@ -1,0 +1,13 @@
+{
+  "name": "스피드레이서",
+  "short_name": "스피드레이서",
+  "description": "멀티플레이어 레이싱 게임",
+  "start_url": "/speedracer/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#080002",
+  "theme_color": "#ff003c",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

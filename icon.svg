@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#080002"/>
+  <rect x="0" y="0" width="512" height="10" rx="4" fill="#ff003c"/>
+  <rect x="0" y="502" width="512" height="10" rx="4" fill="#ff003c"/>
+  <rect x="0" y="188" width="512" height="6" fill="#ff003c" opacity="0.5"/>
+  <rect x="0" y="318" width="512" height="6" fill="#ff003c" opacity="0.5"/>
+  <text x="256" y="195" font-family="Arial Black,Impact,sans-serif" font-size="210" font-weight="900" font-style="italic" fill="#ffffff" text-anchor="middle" dominant-baseline="auto" letter-spacing="-8">SR</text>
+  <text x="256" y="370" font-family="Arial,sans-serif" font-size="68" font-weight="900" fill="#ff003c" text-anchor="middle" letter-spacing="12">RACER</text>
+</svg>
