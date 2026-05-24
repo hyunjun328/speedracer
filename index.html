@@ -1128,14 +1128,14 @@ const vConfigs=[
 
 let selV=0, selT=0, selD='EASY', selMode='NORMAL';
 const COLOR_OPTIONS=[
-  {hex:'#e8001c',val:0xe8001c},  // red
-  {hex:'#1d6fff',val:0x1d6fff},  // blue
-  {hex:'#f5c400',val:0xf5c400},  // yellow
-  {hex:'#ffffff',val:0xffffff},  // white
-  {hex:'#111111',val:0x111111},  // black
-  {hex:'#16c94e',val:0x16c94e},  // green
-  {hex:'#ff5ca8',val:0xff5ca8},  // pink
-  {hex:'#888888',val:0x888888},  // gray
+  {hex:'#ff0000',val:0xff0000},  // red
+  {hex:'#0055ff',val:0x0055ff},  // blue
+  {hex:'#ffcc00',val:0xffcc00},  // yellow
+  {hex:'#00cc33',val:0x00cc33},  // green
+  {hex:'#ff0099',val:0xff0099},  // pink
+  {hex:'#ff6600',val:0xff6600},  // orange
+  {hex:'#9900ff',val:0x9900ff},  // purple
+  {hex:'#00ccff',val:0x00ccff},  // cyan
 ];
 let selColor=COLOR_OPTIONS[0];
 
@@ -1799,6 +1799,20 @@ function createVehicle(config, colorOverride){
   if (loadedModels[config.name]) {
     const modelInstance = loadedModels[config.name].clone();
     modelInstance.position.y = modelConfigs[config.name].yOffset || 0;
+    if(colorOverride !== undefined){
+      modelInstance.traverse(child=>{
+        if(!child.isMesh) return;
+        const applyTint = m => {
+          const c = m.clone();
+          c.color.set(colorOverride);
+          c.needsUpdate = true;
+          return c;
+        };
+        child.material = Array.isArray(child.material)
+          ? child.material.map(applyTint)
+          : applyTint(child.material);
+      });
+    }
     g.add(modelInstance);
   } else {
     const fallbackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 3), new THREE.MeshStandardMaterial({color: paintColor}));
