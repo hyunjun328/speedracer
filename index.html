@@ -1927,7 +1927,20 @@ function createVehicle(config, colorOverride){
   g.add(trailGroup);
   g.userData.trail = trailGroup;
   g.userData.boostLight = boostLight;
-  
+
+  const shieldMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(3.2, 16, 12),
+    new THREE.MeshStandardMaterial({color:0x00ccff,emissive:0x00aaff,emissiveIntensity:1.0,transparent:true,opacity:0.15,side:THREE.DoubleSide,depthWrite:false})
+  );
+  shieldMesh.position.y = 0.8;
+  shieldMesh.visible = false;
+  g.add(shieldMesh);
+  const shieldLight = new THREE.PointLight(0x00ccff, 0, 18);
+  shieldLight.position.y = 1;
+  g.add(shieldLight);
+  g.userData.shieldBubble = shieldMesh;
+  g.userData.shieldLight = shieldLight;
+
   return g;
 }
 
@@ -2278,7 +2291,7 @@ function useLightning(r){
     });
   }
   if(target&&(!target.shieldTimer||target.shieldTimer<=0)){
-    target.stunTimer=1.8; target.yVel=22; target.vel.multiplyScalar(0.2);
+    target.stunTimer=1.0; target.yVel=12; target.vel.multiplyScalar(0.45);
     triggerExplosion(target.pos.clone()); playExplosionSound();
     if(target.player){triggerScreenShake('heavy');showHitFlash();}
     if(r.player) showToast('⚡ LIGHTNING!');
@@ -2890,6 +2903,20 @@ function animate(now){
   
   if(mpActive) mpInterpRemotes(dt);
   resolveAllCarCollisions();
+
+  racers.forEach(r=>{
+    const sb=r.group.userData.shieldBubble, sl=r.group.userData.shieldLight;
+    if(!sb) return;
+    const active=r.shieldTimer>0;
+    sb.visible=active;
+    if(active){
+      const t=performance.now();
+      const pulse=1+0.06*Math.sin(t*0.007);
+      sb.scale.setScalar(pulse);
+      sb.material.opacity=0.13+0.06*Math.sin(t*0.009);
+      sl.intensity=2.5+1.5*Math.sin(t*0.007);
+    } else { sl.intensity=0; }
+  });
 
   const sp=player.vel.length()/Math.max(player.max,1),fwd=new THREE.Vector3(Math.sin(player.heading),0,Math.cos(player.heading));
   camera.position.lerp(player.pos.clone().addScaledVector(fwd,-18-sp*7).add(new THREE.Vector3(0,9.6+sp*2.2 + (player.yOffset||0)*0.5,0)),.1);

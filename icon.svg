@@ -1,9 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="80" fill="#080002"/>
-  <rect x="0" y="0" width="512" height="10" rx="4" fill="#ff003c"/>
-  <rect x="0" y="502" width="512" height="10" rx="4" fill="#ff003c"/>
-  <rect x="0" y="188" width="512" height="6" fill="#ff003c" opacity="0.5"/>
-  <rect x="0" y="318" width="512" height="6" fill="#ff003c" opacity="0.5"/>
-  <text x="256" y="195" font-family="Arial Black,Impact,sans-serif" font-size="210" font-weight="900" font-style="italic" fill="#ffffff" text-anchor="middle" dominant-baseline="auto" letter-spacing="-8">SR</text>
-  <text x="256" y="370" font-family="Arial,sans-serif" font-size="68" font-weight="900" fill="#ff003c" text-anchor="middle" letter-spacing="12">RACER</text>
+  <rect x="0" y="0" width="512" height="8" rx="4" fill="#ff003c"/>
+  <rect x="0" y="504" width="512" height="8" rx="4" fill="#ff003c"/>
+
+  <!-- 속도선 -->
+  <rect x="28" y="306" width="72" height="6" rx="3" fill="#ff003c" opacity="0.55"/>
+  <rect x="28" y="322" width="46" height="4" rx="2" fill="#ff003c" opacity="0.38"/>
+  <rect x="28" y="335" width="60" height="4" rx="2" fill="#ff003c" opacity="0.38"/>
+
+  <!-- 바퀴 (차체 뒤) -->
+  <circle cx="175" cy="398" r="54" fill="#141414"/>
+  <circle cx="175" cy="398" r="36" fill="#1e1e1e"/>
+  <circle cx="175" cy="398" r="15" fill="#ff003c"/>
+  <circle cx="175" cy="398" r="7" fill="#080002"/>
+
+  <circle cx="360" cy="398" r="54" fill="#141414"/>
+  <circle cx="360" cy="398" r="36" fill="#1e1e1e"/>
+  <circle cx="360" cy="398" r="15" fill="#ff003c"/>
+  <circle cx="360" cy="398" r="7" fill="#080002"/>
+
+  <!-- 리어 스포일러 -->
+  <rect x="84" y="246" width="10" height="40" rx="2" fill="#cc0028"/>
+  <rect x="66" y="240" width="46" height="10" rx="3" fill="#cc0028"/>
+
+  <!-- 차체 (바퀴 위에) -->
+  <path d="
+    M 108,372
+    L 102,348 L 92,318 L 88,288
+    L 96,264 L 122,256 L 165,250
+    L 198,236 L 224,210
+    L 256,194 L 292,191
+    L 326,199 L 356,224
+    L 382,248 L 416,256
+    L 436,272 L 446,306
+    L 446,362 L 428,372
+    Z
+  " fill="#ff003c"/>
+
+  <!-- 윈드실드 -->
+  <path d="M 228,212 L 215,252 L 326,252 L 312,209 Z"
+        fill="rgba(20,140,220,0.28)" stroke="rgba(140,210,255,0.45)" stroke-width="2"/>
+
+  <!-- 차체 하이라이트 -->
+  <path d="M 232,212 L 224,248 L 275,248 L 268,210 Z"
+        fill="rgba(255,255,255,0.07)"/>
+
+  <!-- 프론트 스플리터 -->
+  <rect x="430" y="362" width="30" height="8" rx="2" fill="#cc0028"/>
+  <!-- 리어 디퓨저 -->
+  <rect x="52" y="360" width="56" height="8" rx="2" fill="#cc0028"/>
 </svg>
