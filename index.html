@@ -146,44 +146,46 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   padding:24px;
 }
 .guide-card{
-  width:min(520px,92vw);
+  width:min(440px,90vw);
   background:linear-gradient(180deg,rgba(18,8,14,.96),rgba(8,0,4,.96));
   border:1px solid rgba(255,0,60,.45);
-  border-radius:18px;
+  border-radius:16px;
   box-shadow:0 25px 70px rgba(0,0,0,.75),0 0 35px rgba(255,0,60,.25);
-  padding:28px;
+  padding:18px 20px;
   text-align:left;
 }
 .guide-card h3{
   font-family:'Syncopate',sans-serif;
-  font-size:24px;
-  margin-bottom:10px;
+  font-size:18px;
+  margin-bottom:6px;
   color:#fff;
   text-shadow:0 0 18px rgba(255,0,60,.7);
 }
 .guide-card p{
   color:#dbe4ef;
-  line-height:1.55;
+  line-height:1.45;
   font-weight:700;
-  margin-bottom:16px;
+  margin-bottom:10px;
+  font-size:12px;
 }
 .guide-list{
   display:grid;
-  gap:10px;
-  margin:18px 0 22px;
+  gap:7px;
+  margin:10px 0 14px;
 }
 .guide-row{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:10px;
   color:#fff;
   font-weight:800;
+  font-size:13px;
 }
 .guide-key{
-  min-width:112px;
+  min-width:95px;
   text-align:center;
-  padding:8px 10px;
-  border-radius:8px;
+  padding:5px 8px;
+  border-radius:7px;
   background:rgba(255,0,60,.16);
   border:1px solid rgba(255,0,60,.5);
   color:#fff;
@@ -194,7 +196,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   width:100%;
   border:none;
   border-radius:10px;
-  padding:14px 18px;
+  padding:10px 16px;
   background:#ff003c;
   color:#fff;
   font-family:'Syncopate',sans-serif;
@@ -339,11 +341,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
   .stat-row-sub{gap:10px}
 
   /* 미니맵 — 왼쪽 세로 중앙 */
-  .minimap{width:115px;height:115px;left:8px;bottom:auto;top:50%;transform:translateY(-50%)}
+  .minimap{width:88px;height:88px;left:8px;bottom:auto;top:50%;transform:translateY(-50%)}
 
   /* 스피드미터 — 오른쪽 세로 중앙 */
-  .speedometer{width:110px;height:110px;right:8px;bottom:auto;top:50%;transform:translateY(-50%)}
-  .speedometer:before{width:86px;height:86px}
+  .speedometer{width:84px;height:84px;right:8px;bottom:auto;top:50%;transform:translateY(-50%)}
+  .speedometer:before{width:64px;height:64px}
+  .speed-num{font-size:22px}
+  .speed-unit{font-size:8px}
   .speed-num{font-size:28px}
   .speed-unit{font-size:9px}
 
@@ -369,15 +373,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 .touch-btn.pressed{background:rgba(255,0,60,.52);border-color:#ff003c;box-shadow:0 0 22px rgba(255,0,60,.55);}
 #tbLeft {left:3vw; bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
 #tbRight{left:calc(3vw + min(20vw,110px) + 2vw); bottom:9vh; width:min(20vw,110px); height:min(20vw,110px); font-size:min(7vw,36px); border-radius:50%;}
-#tbDrift{right:3vw; bottom:3vh; width:min(30vw,165px); height:min(16vh,125px); font-size:min(4vw,20px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
+#tbDrift{right:3vw; bottom:3vh; width:min(30vw,165px); height:min(22vh,155px); font-size:min(4vw,20px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
 #tbDrift.pressed{background:rgba(255,136,165,.45);border-color:#ff88a5;box-shadow:0 0 36px rgba(255,136,165,.6);}
-#tbBrake{right:calc(3vw + min(30vw,165px) + 2vw); bottom:3vh; width:min(28vw,155px); height:min(15vh,125px); font-size:min(3.5vw,18px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
+#tbBrake{right:calc(3vw + min(30vw,165px) + 2vw); bottom:3vh; width:min(28vw,155px); height:min(21vh,155px); font-size:min(3.5vw,18px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
 #tbBrake.pressed{background:rgba(220,0,0,.8);border-color:#ff2020;box-shadow:0 0 34px rgba(255,0,0,.75);}
-#tbItem {right:3vw; bottom:calc(3vh + min(16vh,125px) + 1vh); width:min(30vw,165px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
+#tbItem {right:3vw; bottom:calc(3vh + min(22vh,155px) + 1vh); width:min(30vw,165px); height:min(7vh,60px); font-size:min(2.5vw,14px); background:rgba(255,200,0,.14); border-color:rgba(255,200,0,.4);}
 #tbItem.pressed{background:rgba(255,200,0,.38);border-color:rgba(255,200,0,.8);}
 
 @media (pointer:coarse){
-  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(16vh,125px) + 2vw)!important;right:3vw!important;width:min(30vw,165px)!important;height:min(16vh,125px)!important;font-size:min(9vw,52px)!important;}
+  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(22vh,155px) + 2vw)!important;right:3vw!important;width:min(30vw,165px)!important;height:min(22vh,155px)!important;font-size:min(9vw,52px)!important;}
 }
 /* ── 태블릿 (터치 + 768px 이상) ── */
 @media (pointer:coarse) and (min-width:768px){
