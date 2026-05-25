@@ -381,8 +381,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 }
 .touch-btn{position:absolute;pointer-events:all;background:rgba(255,0,60,.18);border:2px solid rgba(255,0,60,.5);border-radius:16px;color:#fff;font-family:'Syncopate',sans-serif;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:none;-webkit-tap-highlight-color:transparent;transition:background .08s,border-color .08s,box-shadow .08s;}
 .touch-btn.pressed{background:rgba(255,0,60,.52);border-color:#ff003c;box-shadow:0 0 22px rgba(255,0,60,.55);}
-#tbLeft {left:3vw; bottom:9vh; width:min(14vw,77px); height:min(14vw,77px); font-size:min(5vw,25px); border-radius:50%;}
-#tbRight{left:calc(3vw + min(14vw,77px) + 2vw); bottom:9vh; width:min(14vw,77px); height:min(14vw,77px); font-size:min(5vw,25px); border-radius:50%;}
+#tbLeft {left:3vw; bottom:9vh; width:min(14vw,77px); height:min(14vw,77px); font-size:min(5vw,25px); border-radius:0; border:none; clip-path:polygon(100% 0%,0% 50%,100% 100%); background:rgba(255,0,60,.32);}
+#tbRight{left:calc(3vw + min(14vw,77px) + 2vw); bottom:9vh; width:min(14vw,77px); height:min(14vw,77px); font-size:min(5vw,25px); border-radius:0; border:none; clip-path:polygon(0% 0%,100% 50%,0% 100%); background:rgba(255,0,60,.32);}
+#tbLeft.pressed{background:rgba(255,0,60,.7);}
+#tbRight.pressed{background:rgba(255,0,60,.7);}
 #tbDrift{right:3vw; bottom:3vh; width:min(22vw,123px); height:min(21vh,146px); font-size:min(3.5vw,16px); color:#ff88a5; border-color:rgba(255,136,165,.6); box-shadow:0 0 18px rgba(255,136,165,.2);}
 #tbDrift.pressed{background:rgba(255,136,165,.45);border-color:#ff88a5;box-shadow:0 0 36px rgba(255,136,165,.6);}
 #tbBrake{right:calc(3vw + min(22vw,123px) + 2vw); bottom:3vh; width:min(21vw,116px); height:min(20vh,146px); font-size:min(3vw,15px); font-weight:900; letter-spacing:1px; background:rgba(160,0,0,.55); border-color:rgba(255,60,60,.85); border-width:3px; color:#fff; box-shadow:0 0 22px rgba(255,0,0,.35),inset 0 2px 4px rgba(255,255,255,.15); border-radius:14px;}
@@ -392,8 +394,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#050000;font-family:
 
 @media (pointer:coarse){
   #tbBrake{display:none!important;}
-  #tbItem{right:calc(3vw + min(22vw,123px) + 2vw)!important;bottom:3vh!important;height:min(21vh,146px)!important;font-size:min(5vw,26px)!important;}
-  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(21vh,146px) + 2vw)!important;right:calc(3vw + min(22vw,123px) + 2vw)!important;width:min(21vw,116px)!important;height:min(21vh,146px)!important;font-size:min(7vw,42px)!important;}
+  #tbItem{right:calc(3vw + min(22vw,123px) + 2vw)!important;bottom:3vh!important;width:min(20vw,111px)!important;height:min(19vh,131px)!important;font-size:min(5vw,26px)!important;}
+  .item-slot{top:auto!important;transform:none!important;bottom:calc(3vh + min(19vh,131px) + 2vw)!important;right:calc(3vw + min(22vw,123px) + 2vw)!important;width:min(19vw,104px)!important;height:min(19vh,131px)!important;font-size:min(6vw,38px)!important;}
 }
 /* ── 태블릿 (터치 + 768px 이상 + 높이 600px 이상) ── */
 @media (pointer:coarse) and (min-width:768px) and (min-height:600px){
@@ -2958,7 +2960,7 @@ function setupTouchControls(){
   tc.classList.add('active');
   touchControlsActive=true;
 
-  const bindings={tbLeft:'arrowleft',tbRight:'arrowright',tbDrift:'shift',tbItem:'z'};
+  const bindings={tbDrift:'shift',tbItem:'z'};
 
   Object.entries(bindings).forEach(([id,key])=>{
     const btn=document.getElementById(id);
@@ -2985,6 +2987,31 @@ function setupTouchControls(){
     brakeBtn.addEventListener('touchstart',e=>{e.preventDefault();keys.add('touchbrake');brakeBtn.classList.add('pressed');},{passive:false});
     brakeBtn.addEventListener('touchend',e=>{e.preventDefault();keys.delete('touchbrake');brakeBtn.classList.remove('pressed');},{passive:false});
     brakeBtn.addEventListener('touchcancel',()=>{keys.delete('touchbrake');brakeBtn.classList.remove('pressed');});
+  }
+
+  // 좌우 버튼 슬라이드 감지 (손가락 안 떼고 좌↔우 이동 가능)
+  const leftBtn=document.getElementById('tbLeft'),rightBtn=document.getElementById('tbRight');
+  if(leftBtn&&rightBtn){
+    const steerTrack={};
+    function refreshSteer(){
+      const hasL=Object.values(steerTrack).includes('L'),hasR=Object.values(steerTrack).includes('R');
+      hasL?keys.add('arrowleft'):keys.delete('arrowleft');
+      hasR?keys.add('arrowright'):keys.delete('arrowright');
+      leftBtn.classList.toggle('pressed',hasL);
+      rightBtn.classList.toggle('pressed',hasR);
+    }
+    function hitBtn(x,y){
+      const lr=leftBtn.getBoundingClientRect(),rr=rightBtn.getBoundingClientRect();
+      if(x>=lr.left&&x<=lr.right&&y>=lr.top&&y<=lr.bottom)return'L';
+      if(x>=rr.left&&x<=rr.right&&y>=rr.top&&y<=rr.bottom)return'R';
+      return null;
+    }
+    [leftBtn,rightBtn].forEach(btn=>{
+      btn.addEventListener('touchstart',e=>{e.preventDefault();for(const t of e.changedTouches){const d=hitBtn(t.clientX,t.clientY);if(d)steerTrack[t.identifier]=d;}refreshSteer();},{passive:false});
+      btn.addEventListener('touchmove',e=>{e.preventDefault();for(const t of e.changedTouches){if(steerTrack[t.identifier]!==undefined){const d=hitBtn(t.clientX,t.clientY);if(d)steerTrack[t.identifier]=d;}}refreshSteer();},{passive:false});
+      btn.addEventListener('touchend',e=>{e.preventDefault();for(const t of e.changedTouches)delete steerTrack[t.identifier];refreshSteer();},{passive:false});
+      btn.addEventListener('touchcancel',e=>{for(const t of e.changedTouches)delete steerTrack[t.identifier];refreshSteer();});
+    });
   }
 
   // 레이스 종료/홈 이동 시 ITEM 버튼 가시성 관리
